@@ -1,19 +1,14 @@
 {
   "items": [
     {
-      "text": "Accueil",
+      "text": "Home",
       "url": "/",
       "external": false
     },
     {
       "text": "GitHub",
-      "url": "https://github.com/hankchizljaw/hylia",
+      "url": "https://github.com/BBB",
       "external": true
-    },
-    {
-      "text": "Example Contact Page",
-      "url": "/contact",
-      "external": false
     }
   ]
 }
