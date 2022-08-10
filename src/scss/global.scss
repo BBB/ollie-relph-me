@@ -3,6 +3,8 @@
 // Pull in the stalfos lib
 @import '../../node_modules/stalfos/stalfos.scss';
 
+@import './fonts/brushup/brushup.scss';
+
 // Local mixins
 @import 'mixins/dark-mode';
 
@@ -10,6 +12,25 @@
 
 // Local dependencies
 @import 'typography';
+
+/**
+ * LOGO
+ */
+#logo {
+  font-family: "BrushUpTooW01-Regular";
+  font-weight: 600;
+  color: currentColor;
+  font-size: 2em;
+  display: inline-block;
+}
+#logo span {
+  display: block;
+  transform: rotate(-15deg);
+}
+
+#logo span:last-child {
+  margin-top: -0.5em;
+}
 
 /**
  * GLOBAL STYLES

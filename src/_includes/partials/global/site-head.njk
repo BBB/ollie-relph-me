@@ -3,8 +3,12 @@
   <div class="wrapper">
     <div class="[ site-head__inner ] [ md:box-flex space-between align-center ]">
       <a href="/" class="[ site-head__site-name ] [ leading-tight ]">
+        <span></span>
         <span class="visually-hidden">{{ site.name }} - Home</span>
-        <span class="[ site-head__site-name ] [ text-600 ]" aria-hidden="true">{{ site.name }}</span>
+        <span class="[ site-head__site-name ] [ text-600 ]" aria-hidden="true" id="logo">
+          <span>Ollie</span>
+          <span>Relph</span>
+        </span>
       </a>
       {% set ariaLabel = 'navigation' %}
       {% include "partials/components/nav.njk" %}

@@ -25,7 +25,7 @@
   "scripts": {
     "sass:tokens": "pnpx json-to-scss src/_data/tokens.json src/scss/_tokens.scss",
     "sass:process": "pnpm run sass:tokens && sass src/scss/global.scss src/_includes/assets/css/global.css --style=compressed",
-    "start": "concurrently \"pnpm run sass:process -- --watch\" \"pnpm run cms:bundle -- --watch\" \"pnpm run serve\"",
+    "start": "concurrently \"pnpm run sass:process -- --watch\" \"pnpm run serve\"",
     "serve": "cross-env ELEVENTY_ENV=development pnpm eleventy --serve",
     "production": "rm -rf ./dist || true && pnpm run sass:process && pnpm eleventy"
   }
