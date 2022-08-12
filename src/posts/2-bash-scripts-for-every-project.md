@@ -10,7 +10,7 @@ tags:
 
 ## tag.sh
 
-````bash
+```bash
 #!/usr/bin/env bash
 
 tag=$1
@@ -55,6 +55,7 @@ git push --tags
 git push
 hub release create -m "$VERSION" $VERSION
 echo "Released $VERSION"
+
 ```
 
 ### Usage
@@ -64,6 +65,7 @@ echo "Released $VERSION"
 Running the script as `./tag.sh` will list the latest `semver` based tags in order, prompt you for a new one, then tag and push the commit and create a release on github.
 
 Passing a version to the script will skip the prompt `./tag.sh 1.0.0`
+
 ## version.sh
 
 ```bash
@@ -98,7 +100,7 @@ echo "Version ${version_type}"
 yarn version "--${version_type}"
 git add package.json
 cat package.json | jq .version | xargs ./tag.sh
-````
+```
 
 ### Usage
 
