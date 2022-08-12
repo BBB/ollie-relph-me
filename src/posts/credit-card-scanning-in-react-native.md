@@ -45,16 +45,16 @@ npm i react-native-card.io --save
 Because `react-native-card.io` contains native code, we need to add it to our XCode project.
 
 Right click on the project and "Add files to ..."
-![Add Files to Project](__GHOST_URL__/blog/content/images/2015/10/add-files-to-project.png)
+![Add Files to Project](/images/2015/10/add-files-to-project.png)
 
 Navigate to your `node_modules` folder and select the Card.io project.
-![Select the Card.io XCode Project](__GHOST_URL__/blog/content/images/2015/10/select-the-card-io-project.png)
+![Select the Card.io XCode Project](/images/2015/10/select-the-card-io-project.png)
 
 Add the binary to the Link build step
-![Select the Card.io Binary](__GHOST_URL__/blog/content/images/2015/10/select-the-card-io-binary.png)
+![Select the Card.io Binary](/images/2015/10/select-the-card-io-binary.png)
 
 Add the `-lc++` flag to "Other Linker Flags"
-![Add linker flags](__GHOST_URL__/blog/content/images/2015/10/add-linker-flags.png)
+![Add linker flags](/images/2015/10/add-linker-flags.png)
 
 Require the component in your view
 
