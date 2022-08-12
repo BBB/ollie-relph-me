@@ -16,6 +16,7 @@
     "stalfos": "github:hankchizljaw/stalfos#c8971d22726326cfc04089b2da4d51eeb1ebb0eb"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "bl": "^3.0.0",
     "cross-env": "^5.2.1",
     "markdown-it": "8.4.2",

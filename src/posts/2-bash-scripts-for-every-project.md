@@ -6,11 +6,11 @@ tags:
   - script
   - typescript
   - javascript
-
 ---
 
 ## tag.sh
-```bash
+
+````bash
 #!/usr/bin/env bash
 
 tag=$1
@@ -97,7 +97,7 @@ echo "Version ${version_type}"
 yarn version "--${version_type}"
 git add package.json
 cat package.json | jq .version | xargs ./tag.sh
-```
+````
 
 ### Usage
 

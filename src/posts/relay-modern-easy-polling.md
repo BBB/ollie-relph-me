@@ -9,7 +9,6 @@ tags:
   - javascript
   - graphql
   - es6
-
 ---
 
 [Relay](http://facebook.github.io/relay/en/) & [GraphQl](https://github.com/facebook/graphql) offer the ability to listen for updates via subscriptions. This can be a very powerful tool for creating a real-time collaborative application.
@@ -28,41 +27,38 @@ Follow the [Quick Start Guide](http://facebook.github.io/relay/docs/en/quick-sta
 import {
   Environment,
   Network,
+  Observable,
   RecordSource,
   Store,
-  Observable,
-} from 'relay-runtime';
+} from "relay-runtime";
 
-function fetchQuery(
-  operation,
-  variables,
-) {
+function fetchQuery(operation, variables) {
   return Observable.create((sink) => {
-    fetch('/graphql', {
-      method: 'POST',
+    fetch("/graphql", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query: operation.text,
         variables,
       }),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.errors) {
-        sink.error(data.errors);
-        return
-      }
-      sink.next(data);
-      sink.complete();
-    });
-  })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.errors) {
+          sink.error(data.errors);
+          return;
+        }
+        sink.next(data);
+        sink.complete();
+      });
+  });
 }
 
 const environment = new Environment({
   network: Network.create(fetchQuery),
-  store: new Store(new RecordSource()),  
+  store: new Store(new RecordSource()),
 });
 
 export default environment;
@@ -71,16 +67,17 @@ export default environment;
 Then using a `<QueryRenderer />` you are able to configure the polling interval that this `Observable` will be called with. The data will automatically flow into your child components.
 
 ```jsx
-import React from 'React';
-import { graphql, QueryRenderer } from 'react-relay';
-import environment from './environment';
+import React from "React";
+import { QueryRenderer, graphql } from "react-relay";
+
+import environment from "./environment";
 
 const AllSpecies = (props) => (
   <QueryRenderer
     environment={environment}
     variables={{}}
     query={graphql`
-      query AllSpeciesQuery { 
+      query AllSpeciesQuery {
         allSpecies {
           edges {
             node {
@@ -97,7 +94,7 @@ const AllSpecies = (props) => (
     }}
     render={(readyState) => {
       if (!readyState.props) {
-        return <div>Loading</div>
+        return <div>Loading</div>;
       }
       return (
         <div>
@@ -105,10 +102,10 @@ const AllSpecies = (props) => (
             <div>{edge.node.name}</div>
           ))}
         </div>
-      )
+      );
     }}
   />
-)
+);
 
 export default AllSpecies;
 ```

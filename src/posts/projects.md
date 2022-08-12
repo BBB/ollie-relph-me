@@ -1,10 +1,7 @@
 ---
 title: Projects
 date: 2018-08-08 10:59:16
-
-
 ---
-
 
 <div class="col-sm-10 offset-sm-1">
     
@@ -29,6 +26,5 @@ Hawler is an OS X menubar app that captures screenshots &amp; uploads them to dr
         <iframe src="//player.vimeo.com/video/40162131" width="500" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
     </div>
 </div>
-
 
 </div>
