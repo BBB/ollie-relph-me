@@ -55,7 +55,8 @@ git push --tags
 git push
 hub release create -m "$VERSION" $VERSION
 echo "Released $VERSION"
-        ```
+```
+
 ### Usage
 
 `chmod +x ./tag.sh` to mark the script as executable
