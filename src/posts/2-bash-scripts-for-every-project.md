@@ -1,5 +1,5 @@
 ---
-title: 2 bash scripts for every Javascript/ Typescript package
+title: "2 bash scripts for every Javascript/ Typescript package"
 date: 2020-07-15 10:28:39
 tags:
   - bash

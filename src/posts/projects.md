@@ -1,5 +1,5 @@
 ---
-title: Projects
+title: "Projects"
 date: 2018-08-08 10:59:16
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Streaming Image Resizer with node.js
+title: "Streaming Image Resizer with node.js"
 date: 2016-02-26 13:13:45
 tags:
   - node.js

@@ -1,5 +1,5 @@
 ---
-title: Credit Card Scanning in React Native
+title: "Credit Card Scanning in React Native"
 date: 2015-10-07 13:53:17
 tags:
   - react

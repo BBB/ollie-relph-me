@@ -1,5 +1,5 @@
 ---
-title: React Native 0.11+ Keyboard Display Events
+title: "React Native 0.11+ Keyboard Display Events"
 date: 2015-10-07 14:25:03
 tags:
   - react-native

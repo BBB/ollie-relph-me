@@ -1,5 +1,5 @@
 ---
-title: A Smarter Promise.all() for JavaScript (ES2015)
+title: "A Smarter Promise.all() for JavaScript (ES2015)"
 date: 2015-10-20 18:03:51
 tags:
   - es6

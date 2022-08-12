@@ -1,5 +1,5 @@
 ---
-title: Redux Form v6 Dropzone Example
+title: "Redux Form v6 Dropzone Example"
 date: 2016-09-06 10:30:05
 tags:
   - react

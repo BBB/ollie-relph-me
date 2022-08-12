@@ -1,5 +1,5 @@
 ---
-title: Redux Form and Dropzone React Example
+title: "Redux Form and Dropzone React Example"
 date: 2016-01-19 10:19:55
 tags:
   - react

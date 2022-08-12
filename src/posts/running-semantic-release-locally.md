@@ -1,5 +1,5 @@
 ---
-title: Running Semantic Release Locally
+title: "Running Semantic Release Locally"
 date: 2016-07-29 10:21:28
 tags:
   - semantic-release
