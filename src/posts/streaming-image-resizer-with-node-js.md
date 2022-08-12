@@ -34,11 +34,12 @@ var https = require('https');
 // in order to write to the filesystem we need the `fs` lib
 var fs = require('fs');
 
-var imageUri = 'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
+var imageUri =
+  'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
 
 // determine wether we need to use `http` or `https` libs
 var httpLib = http;
-if ( /^https/.test(imageUri) ) {
+if (/^https/.test(imageUri)) {
   httpLib = https;
 }
 // begin reading the image
@@ -48,20 +49,18 @@ httpLib.get(imageUri, function(downloadStream) {
   downloadStream.on('end', () => {
     console.log('downloadStream', 'END');
   });
-  writeStream.on('error', (err) => {
+  writeStream.on('error', err => {
     console.log('writeStream', err);
   });
-  downloadStream.on('error', (err) => {
+  downloadStream.on('error', err => {
     console.log('downloadStream', err);
   });
 });
-
 ```
 
 If you run the script with `node index.js`, you'll see that the image will be gradually be saved to `output.jpg` while it is downloaded. The download & save are both complete once you see `downloadStream END` logged to the console.
 
 ### Adding the streaming resizer
-
 
 We now need to insert the `sharp` streaming processor in the stream pipeline.
 
@@ -70,7 +69,9 @@ We now need to insert the `sharp` streaming processor in the stream pipeline.
 var sharp = require('sharp');
 
 // create the resize transform
-var resizeTransform = sharp().resize(300, 300).max();
+var resizeTransform = sharp()
+  .resize(300, 300)
+  .max();
 
 downloadStream.pipe(resizeTransform).pipe(writeStream);
 ```
@@ -87,13 +88,16 @@ var fs = require('fs');
 var sharp = require('sharp');
 
 // create the resize transform
-var resizeTransform = sharp().resize(300, 300).max();
+var resizeTransform = sharp()
+  .resize(300, 300)
+  .max();
 
-var imageUri = 'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
+var imageUri =
+  'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
 
 // determine wether we need to use `http` or `https` libs
 var httpLib = http;
-if ( /^https/.test(imageUri) ) {
+if (/^https/.test(imageUri)) {
   httpLib = https;
 }
 // begin reading the image
@@ -103,22 +107,21 @@ httpLib.get(imageUri, function(downloadStream) {
   downloadStream.on('end', () => {
     console.log('downloadStream', 'END');
   });
-  writeStream.on('error', (err) => {
+  writeStream.on('error', err => {
     console.log('writeStream', err);
   });
-  downloadStream.on('error', (err) => {
+  downloadStream.on('error', err => {
     console.log('downloadStream', err);
   });
-  resizeTransform.on('error', (err) => {
+  resizeTransform.on('error', err => {
     console.log('resizeTransform', err);
   });
 });
-
 ```
 
 ### Making it useful
 
-Let's wrap this into a function that returns a `promise` as it's primary interface. 
+Let's wrap this into a function that returns a `promise` as it's primary interface.
 
 ```javascript
 // Import both http & https for handling different uris
@@ -129,24 +132,27 @@ var fs = require('fs');
 // import the lib
 var sharp = require('sharp');
 
-var imageUri = 'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
+var imageUri =
+  'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
 
 resizeImage(imageUri, 300, 300)
-.then((thumbnailPath) => console.log('DONE', thumbnailPath))
-.catch((err) => console.log(err));
+  .then(thumbnailPath => console.log('DONE', thumbnailPath))
+  .catch(err => console.log(err));
 
 function resizeImage(imageUri, width, height) {
   // create the resize transform
-  var resizeTransform = sharp().resize(width, height).max();
+  var resizeTransform = sharp()
+    .resize(width, height)
+    .max();
   return new Promise((resolve, reject) => {
     // determine wether we need to use `http` or `https` libs
     var httpLib = http;
-    if ( /^https/.test(imageUri) ) {
+    if (/^https/.test(imageUri)) {
       httpLib = https;
     }
     // begin reading the image
     httpLib.get(imageUri, function(downloadStream) {
-      var outPath = `./output-${ width }x${ height }.jpg`;
+      var outPath = `./output-${width}x${height}.jpg`;
       var writeStream = fs.createWriteStream(outPath);
       downloadStream.pipe(resizeTransform).pipe(writeStream);
       downloadStream.on('end', () => resolve(outPath));
@@ -156,7 +162,6 @@ function resizeImage(imageUri, width, height) {
     });
   });
 }
-
 ```
 
 Or perhaps we could pass an array of sizes through and download the image once, and resize it and save it for each size.
@@ -170,38 +175,39 @@ var fs = require('fs');
 // import the lib
 var sharp = require('sharp');
 
-var imageUri = 'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
+var imageUri =
+  'https://images.unsplash.com/photo-1427805371062-cacdd21273f1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=7bd7472930019681f251b16e76e05595';
 
 resizeImage(imageUri, [
-  [300, 300,],
-  [600, 450,],
+  [300, 300],
+  [600, 450]
 ])
-.then((thumbnailPaths) => console.log('DONE', thumbnailPaths))
-.catch((err) => console.log(err));
+  .then(thumbnailPaths => console.log('DONE', thumbnailPaths))
+  .catch(err => console.log(err));
 
 function resizeImage(imageUri, sizes) {
   return new Promise((resolve, reject) => {
     // determine wether we need to use `http` or `https` libs
     var httpLib = http;
-    if ( /^https/.test(imageUri) ) {
+    if (/^https/.test(imageUri)) {
       httpLib = https;
     }
     // begin reading the image
     httpLib.get(imageUri, function(downloadStream) {
       downloadStream.on('error', reject);
-      Promise.all(
-        sizes.map((size) => resizeAndSave(downloadStream, size))
-      )
-      .then(resolve)
-      .catch(reject);
+      Promise.all(sizes.map(size => resizeAndSave(downloadStream, size)))
+        .then(resolve)
+        .catch(reject);
     });
   });
 
   function resizeAndSave(downloadStream, size) {
     // create the resize transform
-    var resizeTransform = sharp().resize(size[0], size[1]).max();
+    var resizeTransform = sharp()
+      .resize(size[0], size[1])
+      .max();
     return new Promise((resolve, reject) => {
-      var outPath = `./output-${ size[0] }x${ size[1] }.jpg`;
+      var outPath = `./output-${size[0]}x${size[1]}.jpg`;
       console.log('WRITING', outPath);
       var writeStream = fs.createWriteStream(outPath);
       downloadStream.pipe(resizeTransform).pipe(writeStream);
@@ -211,7 +217,6 @@ function resizeImage(imageUri, sizes) {
     });
   }
 }
-
 ```
 
 I'll leave implementing Amazon s3 streaming, handling different image formats & adding extra `sharp` transforms as an exercise to the reader.

@@ -14,11 +14,9 @@ I'm happy to announce my first react-native package; `react-native-card.io`. You
 
 `react-native-card.io` adds javascript bindings for [card.io](http://card.io/) an open-source project created by [PayPal](http://paypal.com/) and used by [Uber](http://uber.com), [TaskRabbit](http://taskrabbit.com/) and [GrubHub](http://www.grubhub.com/) amongst others.
 
-
 ### Using the Card Scanner
 
 Install the cli tool for initialising react-native projects
-
 
 ```bash
 npm i react-native-cli -g
@@ -26,13 +24,11 @@ npm i react-native-cli -g
 
 Run the react-native setup
 
-
 ```bash
 react-native init CardWallet && cd CardWallet
 ```
 
 Once this is complete we can remove the android code folder as we're not going to be using it.
-
 
 ```bash
 rm -rf android index.android.js
@@ -40,9 +36,7 @@ rm -rf android index.android.js
 
 **At this point you should open the project in XCode and test that it builds ok**
 
-
-From within the project folder you should run: 
-
+From within the project folder you should run:
 
 ```bash
 npm i react-native-card.io --save
@@ -65,29 +59,20 @@ Add the `-lc++` flag to "Other Linker Flags"
 Require the component in your view
 
 ```javascript
-
 import CardIO from 'react-native-card.io';
-
 ```
 
 Add it to your render method, don't forget to handle the `onSuccess` and `onFailure` callbacks.
 
 ```javascript
 <CardIO
-  style={
-    {
-      flex: 1,
-      backgroundColor: 'black',
-    }
-  }
-  onSuccess={
-    ( cardInfo ) => console.log(cardInfo)
-  }
-  onFailure={
-    ( err ) => console.error(err)
-  }
+  style={{
+    flex: 1,
+    backgroundColor: 'black'
+  }}
+  onSuccess={cardInfo => console.log(cardInfo)}
+  onFailure={err => console.error(err)}
 />
 ```
 
 Thats it!
-

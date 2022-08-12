@@ -9,17 +9,15 @@ undefined
 
 Here's why it exists:
 
-
-
 You have a component that you'd like to write integration tests for in the simulator using something like appium or detox.
 
 You've added accessibility, and platform specific code. It's alot to remember for each place you'd like an ID, or just some a11y text.
 
 ```typescript
-import * as React from "react";
-import { Text } from "react-native";
+import * as React from 'react';
+import {Text} from 'react-native';
 
-export const testID = "amount";
+export const testID = 'amount';
 const isTesting = () => global.TEST_MODE === true;
 
 export default () => (
@@ -28,7 +26,7 @@ export default () => (
     <Text
       testID={testID}
       accessible={true}
-      accessibilityLabel={isTesting() ? testID : "The price of the item"}
+      accessibilityLabel={isTesting() ? testID : 'The price of the item'}
     >
       £50.00
     </Text>
@@ -41,11 +39,11 @@ That's a load of juggling for every component
 Enter `testing-a11y`!
 
 ```typescript
-import * as React from "react";
-import { Text } from "react-native";
-import { a11yLabel, a11yOf, a11yProps } from "./lib/testID";
+import * as React from 'react';
+import {Text} from 'react-native';
+import {a11yLabel, a11yOf, a11yProps} from './lib/testID';
 
-export const amountID = a11yOf("amount", "The price of the item");
+export const amountID = a11yOf('amount', 'The price of the item');
 
 export default () => (
   <>
@@ -83,23 +81,19 @@ Imagine you have a common component used all over your app. Each time you use it
 `testing-a11y` simplifies this by allowing you to wrap components. Everything inside the wrapper will have the prefix added to it's testID!
 
 ```typescript
-import * as React from "react";
-import { Text, Button } from "react-native";
-import { a11yLabel, a11yOf } from "./lib/testID";
+import * as React from 'react';
+import {Text, Button} from 'react-native';
+import {a11yLabel, a11yOf} from './lib/testID';
 
-export const submitButtonID = a11yOf("SubmitButton");
+export const submitButtonID = a11yOf('SubmitButton');
 
-export const SubmitButton: React.SFC<{}> = (props) => {
+export const SubmitButton: React.SFC<{}> = props => {
   return (
-    <Button
-      title={"Submit"}
-      onPress={() => void 0}
-      {...submitButtonID().asProps()}
-    />
+    <Button title={'Submit'} onPress={() => void 0} {...submitButtonID().asProps()} />
   );
 };
 
-export default (props) => (
+export default props => (
   <>
     <TestIDPrefix value="Form">
       <TestIDPrefix value="InnerForm">
@@ -116,10 +110,10 @@ export default (props) => (
 You can now select the two different buttons with:
 
 ```typescript
-import { a11yProps } from "testing-a11y";
+import {a11yProps} from 'testing-a11y';
 
-const firstButton = submitButtonID("Form.InnerForm").asTestID();
-const otherButton = submitButtonID("DifferentForm").asTestID();
+const firstButton = submitButtonID('Form.InnerForm').asTestID();
+const otherButton = submitButtonID('DifferentForm').asTestID();
 ```
 
 Much cleaner!

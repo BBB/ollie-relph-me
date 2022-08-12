@@ -14,6 +14,7 @@ tags:
 Quite often when writing promise-based logic flow I'll need to use a `Promise.all()`. What does `Promise.all()` do you ask?
 
 According to [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all):
+
 > The Promise.all(iterable) method returns a promise that resolves when all of the promises in the iterable argument have resolved, or rejects with the reason of the first passed promise that rejects.
 
 Let's build an example that makes use of this; we want to `GET` a load of web pages, find the text content of the `<h1>` on each page and return them as an array once **all** of the requests have finished.
@@ -22,37 +23,32 @@ Let's build an example that makes use of this; we want to `GET` a load of web pa
 
 We're going to be using the excellent [xray](https://github.com/lapwinglabs/x-ray) library to make the requests & parse the HTML. The code for this example is available on github [promise-sequence-example](https://github.com/BBB/promise-sequence-example).
 
-
 ```javascript
 import Xray from 'x-ray';
 
 const xray = Xray();
 
-const urlsToGet = [
-  'medium.com',
-  'twitter.com',
-  'facebook.com',
-];
+const urlsToGet = ['medium.com', 'twitter.com', 'facebook.com'];
 
-const urlPromises = urlsToGet.map(( url ) => {
+const urlPromises = urlsToGet.map(url => {
   console.log('\tStarting', url);
-  return xrayPromise(`http://${ url }`, 'h1')
-  .then(( result ) => {
-    console.log('\tFinished', url, '-', JSON.stringify(result));
-    return result;
-  })
-  .catch(( err ) => {
-    // We want errors in this dataset to fail silently
-    // this is because some sites may only accept https
-    // or perhaps be down.
-    // Normally you would want to handle this
-    return null;
-  });
+  return xrayPromise(`http://${url}`, 'h1')
+    .then(result => {
+      console.log('\tFinished', url, '-', JSON.stringify(result));
+      return result;
+    })
+    .catch(err => {
+      // We want errors in this dataset to fail silently
+      // this is because some sites may only accept https
+      // or perhaps be down.
+      // Normally you would want to handle this
+      return null;
+    });
 });
 
 Promise.all(urlPromises)
-.then(console.log.bind(console))
-.catch(( err ) => console.error(`ERROR: ${ err.message }\n${ err.stack }`));
+  .then(console.log.bind(console))
+  .catch(err => console.error(`ERROR: ${err.message}\n${err.stack}`));
 
 //
 // Helpers
@@ -60,26 +56,21 @@ Promise.all(urlPromises)
 
 // Wrap the standard xray function so that it returns a promise
 function xrayPromise(...args) {
-  return new Promise(( resolve, reject ) => {
-    xray(...args)(( err, obj ) => {
-      if ( err ) {
+  return new Promise((resolve, reject) => {
+    xray(...args)((err, obj) => {
+      if (err) {
         return reject(err);
       }
       return resolve(obj);
     });
   });
-};
+}
 ```
 
-
-The result: 
+The result:
 
 ```javascript
-[ 
-  'Move thinking forward.',
-  'Welcome to Twitter.',
-  'Facebook logo'
-]
+['Move thinking forward.', 'Welcome to Twitter.', 'Facebook logo'];
 ```
 
 This serves us very well for a few URLs, but what happens when we try to do this over a much larger set, let's say 1000?
@@ -96,7 +87,6 @@ curl -sv -O http://s3.amazonaws.com/alexa-static/top-1m.csv.zip; \
   cut -d/ -f1 > topsites.txt && \
   rm top-1m.csv.zip top-1m.csv
 ```
-
 
 ### Running the Example with our Large Dataset
 
@@ -132,33 +122,29 @@ What if instead of attempting to do all of the requests and parsing at the same 
 // split the array into smaller arrays,
 // process each of the smaller arrays before moving
 // onto the next
-function promiseSeq( arr, predicate, consecutive=10 ) {
-  return chunkArray(arr, consecutive).reduce(( prom, items, ix ) => {
+function promiseSeq(arr, predicate, consecutive = 10) {
+  return chunkArray(arr, consecutive).reduce((prom, items, ix) => {
     // wait for the previous Promise.all() to resolve
-    return prom.then(( allResults ) => {
+    return prom.then(allResults => {
       console.log('\nSET', ix);
       return Promise.all(
         // then we build up the next set of simultaneous promises
-        items.map(( item ) => {
+        items.map(item => {
           // call the processing function
-          return predicate(item, ix)
+          return predicate(item, ix);
         })
-      )
-      .then(( results ) => {
+      ).then(results => {
         // then push the results into the collected array
         return allResults.concat(results);
       });
     });
   }, Promise.resolve([]));
 
-  function chunkArray( startArray, chunkSize ) {
+  function chunkArray(startArray, chunkSize) {
     let j = -1;
-    return startArray.reduce(( arr, item, ix ) => {
+    return startArray.reduce((arr, item, ix) => {
       j += ix % chunkSize === 0 ? 1 : 0;
-      arr[ j ] = [
-        ...( arr[ j ] || []),
-        item,
-      ];
+      arr[j] = [...(arr[j] || []), item];
       return arr;
     }, []);
   }
@@ -173,27 +159,30 @@ import fs from 'fs';
 
 const xray = Xray();
 
-const urlsToGet = fs.readFileSync('./topsites.txt').toString('utf8').split(/\r?\n|\r/);
+const urlsToGet = fs
+  .readFileSync('./topsites.txt')
+  .toString('utf8')
+  .split(/\r?\n|\r/);
 
-const urlPromiseSequence = promiseSeq(urlsToGet, ( url, ix ) => {
+const urlPromiseSequence = promiseSeq(urlsToGet, (url, ix) => {
   console.log('\tStarting', url);
-  return xrayPromise(`http://${ url }`, 'h1')
-  .then(( result ) => {
-    console.log('\tFinished', url, '-', JSON.stringify(result));
-    return result;
-  })
-  .catch(( err ) => {
-    // We want errors in this dataset to fail silently
-    // this is because some sites may only accept https
-    // or perhaps be down.
-    // Normally you would want to handle this
-    return null;
-  });
+  return xrayPromise(`http://${url}`, 'h1')
+    .then(result => {
+      console.log('\tFinished', url, '-', JSON.stringify(result));
+      return result;
+    })
+    .catch(err => {
+      // We want errors in this dataset to fail silently
+      // this is because some sites may only accept https
+      // or perhaps be down.
+      // Normally you would want to handle this
+      return null;
+    });
 });
 
 urlPromiseSequence
-.then(console.log.bind(console))
-.catch(( err ) => console.error(`ERROR: ${ err.message }\n${ err.stack }`));
+  .then(console.log.bind(console))
+  .catch(err => console.error(`ERROR: ${err.message}\n${err.stack}`));
 
 //
 // Helpers
@@ -201,9 +190,9 @@ urlPromiseSequence
 
 // Wrap the standard xray function so that it returns a promise
 function xrayPromise(...args) {
-  return new Promise(( resolve, reject ) => {
-    xray(...args)(( err, obj ) => {
-      if ( err ) {
+  return new Promise((resolve, reject) => {
+    xray(...args)((err, obj) => {
+      if (err) {
         return reject(err);
       }
       return resolve(obj);
@@ -214,42 +203,36 @@ function xrayPromise(...args) {
 // split the array into smaller arrays,
 // process each of the smaller arrays before moving
 // onto the next
-function promiseSeq( arr, predicate, consecutive=10 ) {
-  return chunkArray(arr, consecutive).reduce(( prom, items, ix ) => {
+function promiseSeq(arr, predicate, consecutive = 10) {
+  return chunkArray(arr, consecutive).reduce((prom, items, ix) => {
     // wait for the previous Promise.all() to resolve
-    return prom.then(( allResults ) => {
+    return prom.then(allResults => {
       console.log('\nSET', ix);
       return Promise.all(
         // then we build up the next set of simultaneous promises
-        items.map(( item ) => {
+        items.map(item => {
           // call the processing function
-          return predicate(item, ix)
+          return predicate(item, ix);
         })
-      )
-      .then(( results ) => {
+      ).then(results => {
         // then push the results into the collected array
         return allResults.concat(results);
       });
     });
   }, Promise.resolve([]));
 
-  function chunkArray( startArray, chunkSize ) {
+  function chunkArray(startArray, chunkSize) {
     let j = -1;
-    return startArray.reduce(( arr, item, ix ) => {
+    return startArray.reduce((arr, item, ix) => {
       j += ix % chunkSize === 0 ? 1 : 0;
-      arr[ j ] = [
-        ...( arr[ j ] || []),
-        item,
-      ];
+      arr[j] = [...(arr[j] || []), item];
       return arr;
     }, []);
   }
 }
-
 ```
 
 We've now broken the 1000 requests into manageable chunks of 10 parallel requests. This will take quite a while to complete, but it won't have the issues with maxing out system resources that the previous example had.
-
 
 Currently this will do 10 requests at a time. If we wanted `promiseSeq` to behave the same as `Promise.all` we could change the `consecutive` parameter to be the same length as the array of URLs.
 
