@@ -9,6 +9,7 @@ tags:
   - javascript
   - graphql
   - es6
+
 ---
 
 [Relay](http://facebook.github.io/relay/en/) & [GraphQl](https://github.com/facebook/graphql) offer the ability to listen for updates via subscriptions. This can be a very powerful tool for creating a real-time collaborative application.
@@ -24,35 +25,44 @@ The [Relay](http://facebook.github.io/relay/en/) docs currently make no mention 
 Follow the [Quick Start Guide](http://facebook.github.io/relay/docs/en/quick-start-guide.html) for relay-modern, but instead of returning a promise in your fetch, you should return a `RelayObservable`.
 
 ```javascript
-import {Environment, Network, RecordSource, Store, Observable} from 'relay-runtime';
+import {
+  Environment,
+  Network,
+  RecordSource,
+  Store,
+  Observable,
+} from 'relay-runtime';
 
-function fetchQuery(operation, variables) {
-  return Observable.create(sink => {
+function fetchQuery(
+  operation,
+  variables,
+) {
+  return Observable.create((sink) => {
     fetch('/graphql', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query: operation.text,
-        variables
-      })
+        variables,
+      }),
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.errors) {
-          sink.error(data.errors);
-          return;
-        }
-        sink.next(data);
-        sink.complete();
-      });
-  });
+    .then(response => response.json())
+    .then(data => {
+      if (data.errors) {
+        sink.error(data.errors);
+        return
+      }
+      sink.next(data);
+      sink.complete();
+    });
+  })
 }
 
 const environment = new Environment({
   network: Network.create(fetchQuery),
-  store: new Store(new RecordSource())
+  store: new Store(new RecordSource()),  
 });
 
 export default environment;
@@ -62,15 +72,15 @@ Then using a `<QueryRenderer />` you are able to configure the polling interval 
 
 ```jsx
 import React from 'React';
-import {graphql, QueryRenderer} from 'react-relay';
+import { graphql, QueryRenderer } from 'react-relay';
 import environment from './environment';
 
-const AllSpecies = props => (
+const AllSpecies = (props) => (
   <QueryRenderer
     environment={environment}
     variables={{}}
     query={graphql`
-      query AllSpeciesQuery {
+      query AllSpeciesQuery { 
         allSpecies {
           edges {
             node {
@@ -83,22 +93,22 @@ const AllSpecies = props => (
       }
     `}
     cacheConfig={{
-      poll: 5000
+      poll: 5000,
     }}
-    render={readyState => {
+    render={(readyState) => {
       if (!readyState.props) {
-        return <div>Loading</div>;
+        return <div>Loading</div>
       }
       return (
         <div>
-          {readyState.props.allSpecies.map(edge => (
+          {readyState.props.allSpecies.map((edge) => (
             <div>{edge.node.name}</div>
           ))}
         </div>
-      );
+      )
     }}
   />
-);
+)
 
 export default AllSpecies;
 ```

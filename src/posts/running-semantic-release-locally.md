@@ -6,6 +6,7 @@ tags:
   - ci
   - meta-development
   - github
+
 ---
 
 [Semantic Release](https://github.com/semantic-release/semantic-release) is a great tool for managing release versions, and auto generating a [changelog](https://en.wikipedia.org/wiki/Changelog)/ or [github release notes](https://github.com/blog/1547-release-your-software) for you software based on your commit messages.

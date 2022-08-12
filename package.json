@@ -20,13 +20,16 @@
     "cross-env": "^5.2.1",
     "markdown-it": "8.4.2",
     "nunjucks": "^3.2.3",
-    "prettier": "^1.19.1"
+    "prettier": "^2.7.1"
   },
   "scripts": {
     "sass:tokens": "pnpx json-to-scss src/_data/tokens.json src/scss/_tokens.scss",
     "sass:process": "pnpm run sass:tokens && sass src/scss/global.scss src/_includes/assets/css/global.css --style=compressed",
     "start": "concurrently \"pnpm run sass:process -- --watch\" \"pnpm run serve\"",
     "serve": "cross-env ELEVENTY_ENV=development pnpm eleventy --serve",
-    "production": "rm -rf ./dist || true && pnpm run sass:process && pnpm eleventy"
+    "production": "rm -rf ./dist || true && pnpm run sass:process && pnpm eleventy",
+    "pretty": "pnpm run pretty:md && pnpm run pretty:ts",
+    "pretty:ts": "prettier --parser=typescript --write '**/*.{ts,tsx}'",
+    "pretty:md": "prettier --parser=markdown --write '**/*.md'"
   }
 }
