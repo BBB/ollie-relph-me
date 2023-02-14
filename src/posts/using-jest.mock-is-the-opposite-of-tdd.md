@@ -22,41 +22,41 @@ There is another way! Describe your dependencies as `interface`s write "real" im
     
 ```typescript
     
-    type Widget = { id: string };
-    
-    type HttpClient = (
-      input: RequestInfo | URL,
-      init?: RequestInit
-    ) => Promise<Response>;
-    
-    interface WidgetClient {
-      getWidget(id: string): Promise<Widget>;
-      saveWidget(widget: Widget): Promise<void>;
-    }
-    
-    class WidgetApiClient implements WidgetClient {
-      constructor(private httpClient: HttpClient = window.fetch) {}
-      getWidget(id: string) {
-        return this.httpClient("/url/" + id)
-          .then((res) => res.json())
-          .then(({ data }) => data as Widget);
-      }
-      saveWidget(widget: Widget) {
-        return this.httpClient("/url" + widget.id, {
-          method: "PUT",
-          body: JSON.stringify(widget),
-        }).then(() => undefined);
-      }
-    }
-    
-    class WidgetFakeClient implements WidgetClient {
-      constructor(private widgetStore: Record<string, Widget> = {}) {}
-      getWidget(id: string) {
-        return Promise.resolve(this.widgetStore[id]!);
-      }
-      saveWidget(widget: Widget) {
-        this.widgetStore[widget.id] = widget;
-        return Promise.resolve();
-      }
-    }
+type Widget = { id: string };
+
+type HttpClient = (
+  input: RequestInfo | URL,
+  init?: RequestInit
+) => Promise<Response>;
+
+interface WidgetClient {
+  getWidget(id: string): Promise<Widget>;
+  saveWidget(widget: Widget): Promise<void>;
+}
+
+class WidgetApiClient implements WidgetClient {
+  constructor(private httpClient: HttpClient = window.fetch) {}
+  getWidget(id: string) {
+    return this.httpClient("/url/" + id)
+      .then((res) => res.json())
+      .then(({ data }) => data as Widget);
+  }
+  saveWidget(widget: Widget) {
+    return this.httpClient("/url" + widget.id, {
+      method: "PUT",
+      body: JSON.stringify(widget),
+    }).then(() => undefined);
+  }
+}
+
+class WidgetFakeClient implements WidgetClient {
+  constructor(private widgetStore: Record<string, Widget> = {}) {}
+  getWidget(id: string) {
+    return Promise.resolve(this.widgetStore[id]!);
+  }
+  saveWidget(widget: Widget) {
+    this.widgetStore[widget.id] = widget;
+    return Promise.resolve();
+  }
+}
 ```
