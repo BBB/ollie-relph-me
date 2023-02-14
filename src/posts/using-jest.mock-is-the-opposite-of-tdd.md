@@ -20,6 +20,7 @@ The paths passed to `jest.mock` are not refactorable, nor easy to maintain.
 There is another way! Describe your dependencies as `interface`s write "real" implementations alongside fake ones that provide the functionality required by your test. Pass these dependencies as defaulted parameters to your code.
 
     
+```typescript
     
     type Widget = { id: string };
     
@@ -58,4 +59,4 @@ There is another way! Describe your dependencies as `interface`s write "real" im
         return Promise.resolve();
       }
     }
-    
+```
