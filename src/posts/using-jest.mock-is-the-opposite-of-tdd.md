@@ -20,7 +20,7 @@ The paths passed to `jest.mock` are not refactorable, nor easy to maintain.
 There is another way! Describe your dependencies as `interface`s write "real" implementations alongside fake ones that provide the functionality required by your test. Pass these dependencies as defaulted parameters to your code.
 
     
-```javascript
+```typescript
     
 type Widget = { id: string };
 
@@ -60,3 +60,5 @@ class WidgetFakeClient implements WidgetClient {
   }
 }
 ```
+
+Now you've got a fake that you can use alongside your test, or in cases where the api is unstable.
