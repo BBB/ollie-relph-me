@@ -17,10 +17,11 @@ The paths passed to `jest.mock` are not simple to refactor, nor easy to maintain
 
 This is also true for monkey-patching global objects. (think `fetch`, `window.location`, etc.)
 
-There is another way! Describe your dependencies as `interface`s write "real" implementations alongside fake ones that provide the functionality required by your test. Pass these dependencies as defaulted parameters to your code.
+There is another way! 
+
+### 1) Describe your dependencies as interfaces 
 
 ```typescript
-    
 type Widget = { id: string };
 
 type HttpClient = (
@@ -32,7 +33,12 @@ interface WidgetClient {
   getWidget(id: string): Promise<Widget>;
   saveWidget(widget: Widget): Promise<void>;
 }
+```
 
+### 2) Write "Real" implementation
+
+```typescript
+    
 class WidgetApiClient implements WidgetClient {
   constructor(private httpClient: HttpClient = window.fetch) {}
   getWidget(id: string) {
@@ -47,7 +53,12 @@ class WidgetApiClient implements WidgetClient {
     }).then(() => undefined);
   }
 }
+```
 
+### 3) Write "Fake" implementation that provides the functionality required by your test
+
+```typescript
+    
 class WidgetFakeClient implements WidgetClient {
   constructor(private widgetStore: Record<string, Widget> = {}) {}
   getWidget(id: string) {
@@ -58,6 +69,15 @@ class WidgetFakeClient implements WidgetClient {
     return Promise.resolve();
   }
 }
+```
+### 3) Pass these dependencies as defaulted parameters to your code, that can then be overridden in tests
+
+```typescript
+    
+const Widgets = (props = { widgetClient = new WidgetApiClient() }) => {
+  ...
+}
+
 ```
 
 Now you've got a fake that you can use alongside your test, or in cases where the api is unstable.
