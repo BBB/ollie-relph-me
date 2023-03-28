@@ -9,17 +9,16 @@ tags:
 image: ''
 
 ---
-Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a transformation to test your code. 
+Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a transformation to test your code.
 
-In a TypeScript based project, it is not typesafe, and does not alert you to incompatibilities in your test code. It is actively dangerous and helps cover up issues in your codebase.
+In a TypeScript based project, it is not type-safe, and does not alert you to incompatibilities in your test code. It is actively dangerous and helps cover up issues in your codebase.
 
-The paths passed to `jest.mock` are not refactorable, nor easy to maintain.
+The paths passed to `jest.mock` are not simple to refactor, nor easy to maintain.
 
-***
+This is also true for monkey-patching global objects. (think `fetch`, `window.location`, etc.)
 
 There is another way! Describe your dependencies as `interface`s write "real" implementations alongside fake ones that provide the functionality required by your test. Pass these dependencies as defaulted parameters to your code.
 
-    
 ```typescript
     
 type Widget = { id: string };
