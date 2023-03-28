@@ -37,6 +37,8 @@ interface WidgetClient {
 
 ### 2) Write "Real" implementation
 
+Note how this takes a `HttpClient`. We should also unit test this ApiClient using a fake `HttpClient` implementation.
+
 ```typescript
     
 class WidgetApiClient implements WidgetClient {
