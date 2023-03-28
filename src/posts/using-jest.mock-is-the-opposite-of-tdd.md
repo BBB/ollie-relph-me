@@ -59,7 +59,7 @@ class WidgetApiClient implements WidgetClient {
 
 #### 3) Write a "Fake" implementation that provides the functionality required by your test
 
-It might be a good idea to write some tests for your fake to prove that it behaves similarly to your backend.
+It might be a good idea to write some unit tests for your fake to prove that it behaves similarly to your backend.
 
 ```typescript
     
