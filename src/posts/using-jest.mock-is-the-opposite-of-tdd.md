@@ -15,7 +15,7 @@ In a TypeScript based project, it is not type-safe, and does not alert you to in
 
 The paths passed to `jest.mock` are not simple to refactor, nor easy to maintain.
 
-This is also true for monkey-patching global objects. (think `fetch`, `window.location`, etc.)
+This is also true for monkey-patching global objects. (think fetch, window.* , etc.)
 
 There is another way! 
 
