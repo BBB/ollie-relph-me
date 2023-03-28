@@ -19,7 +19,7 @@ This is also true for monkey-patching global objects. (think fetch, window.* , e
 
 There is another way! 
 
-### 1) Describe your dependencies as interfaces 
+#### 1) Describe your dependencies as interfaces 
 
 ```typescript
 type Widget = { id: string };
@@ -35,7 +35,7 @@ interface WidgetClient {
 }
 ```
 
-### 2) Write "Real" implementation
+#### 2) Write a "Real" implementation
 
 Note how this takes a `HttpClient`. We should also unit test this ApiClient using a fake `HttpClient` implementation.
 
@@ -57,7 +57,7 @@ class WidgetApiClient implements WidgetClient {
 }
 ```
 
-### 3) Write "Fake" implementation that provides the functionality required by your test
+#### 3) Write a "Fake" implementation that provides the functionality required by your test
 
 It might be a good idea to write some tests for your fake to prove that it behaves similarly to your backend.
 
@@ -74,7 +74,7 @@ class WidgetFakeClient implements WidgetClient {
   }
 }
 ```
-### 3) Pass these dependencies as defaulted parameters to your code, that can then be overridden in tests
+#### 4) Pass these dependencies as defaulted parameters to your code, that can then be overridden in tests
 
 ```typescript
     
