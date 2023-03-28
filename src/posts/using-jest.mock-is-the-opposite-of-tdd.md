@@ -9,7 +9,7 @@ tags:
 image: ''
 
 ---
-Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a transformation to test your code.
+Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a compile-time transformation to test your code.
 
 In a TypeScript based project, it is not type-safe, and does not alert you to incompatibilities in your test code. It is actively dangerous and helps cover up issues in your codebase.
 
@@ -84,4 +84,4 @@ const Widgets = (props = { widgetClient = new WidgetApiClient() }) => {
 
 ```
 
-Now you've got a fake that you can use alongside your test, or in cases where the api is unstable.
+Now you've got a fake that you can use alongside your test, or in cases where the api is unstable. You have also isolated http into a layer in your application and can isolate your tests to only include downstream.
