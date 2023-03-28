@@ -9,7 +9,7 @@ tags:
 image: ''
 
 ---
-Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a compile-time transformation to test your code.
+Using `jest.mock` is an after-thought. It is the opposite of a test-driven mentality. It says that the code is so untestable that you need to use a HACK based on a compile-time transformation to test your code. (This hack also is incompatible with ESM).
 
 In a TypeScript based project, it is not type-safe, and does not alert you to incompatibilities in your test code. It is actively dangerous and helps cover up issues in your codebase.
 
